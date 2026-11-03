@@ -1,15 +1,15 @@
 /* Dihasilkan otomatis dari analisis piksel aset.
    cx[baris][kolom] = titik tumpu horizontal tiap frame, foot = garis kaki (piksel sumber). */
 const SHEETS = {
-    heroM: { file: "player/hero_cowo.png", cols: 8, rows: 4, cw: 344, ch: 384, ox: 0, foot: 372,
+    heroM: { file: "player/hero_cowo.webp", cols: 8, rows: 4, cw: 344, ch: 384, ox: 0, foot: 372,
         cx: [[161,162,163,163,164,163,162,161],[166,164,157,169,166,169,167,162],[150,164,157,152,172,152,150,146],[164,156,148,161,163,202,202,202]] },
-    heroF: { file: "player/hero_cewe.png", cols: 8, rows: 4, cw: 300, ch: 448, ox: 0, foot: [440, 416, 412, 418],
+    heroF: { file: "player/hero_cewe.webp", cols: 8, rows: 4, cw: 300, ch: 448, ox: 0, foot: [440, 416, 412, 418],
         cx: [[170,163,155,147,139,131,122,114],[150,150,150,150,150,150,150,150],[150,150,150,150,150,150,150,150],[150,150,150,150,150,150,150,150]] },
-    slime: { file: "enemy/musuh.png", cols: 8, rows: 4, cw: 344, ch: 384, ox: 0, foot: 371,
+    slime: { file: "enemy/musuh.webp", cols: 8, rows: 4, cw: 344, ch: 384, ox: 0, foot: 371,
         cx: [[168,169,169,169,170,171,171,172],[168,170,170,170,170,171,172,172],[169,170,170,190,198,207,167,172],[169,171,171,167,175,177,175,174]] },
-    golem: { file: "enemy/musuh2.png", cols: 8, rows: 4, cw: 344, ch: 384, ox: 0, foot: 368,
+    golem: { file: "enemy/musuh2.webp", cols: 8, rows: 4, cw: 344, ch: 384, ox: 0, foot: 368,
         cx: [[177,174,171,169,166,164,161,159],[179,175,173,169,166,166,162,161],[177,155,133,199,174,181,163,152],[177,181,183,181,176,172,171,171]] },
-    ghost: { file: "enemy/musuh3.png", cols: 8, rows: 4, cw: 344, ch: 384, ox: 0, foot: 383,
+    ghost: { file: "enemy/musuh3.webp", cols: 8, rows: 4, cw: 344, ch: 384, ox: 0, foot: 383,
         cx: [[168,169,169,171,171,173,173,173],[176,174,177,179,180,180,180,180],[176,174,171,176,179,177,179,177],[175,177,174,175,176,170,197,148]] }
 };
 
@@ -18,7 +18,7 @@ const SHEETS = {
    (koordinat dalam piksel sumber file PNG)
 ========================================================= */
 
-/* ---- platform batu (platform.png) ---- */
+/* ---- platform batu (platform.webp) ---- */
 const PLATFORM_SPRITES = [
     { sx: 86,   sy: 596, sw: 429,  sh: 197, surf: 3  },  // A kecil
     { sx: 774,  sy: 595, sw: 682,  sh: 277, surf: 3  },  // B sedang
@@ -35,7 +35,7 @@ const SPIKE_SPRITES = [
     { sx: 1835, sy: 1352, sw: 201, sh: 139 }       // kelompok besar kanan
 ];
 
-/* ---- platform.png: aset tambahan ---- */
+/* ---- platform.webp: aset tambahan ---- */
 const BLOCK_RECTS = [                              // blok batu (platform kecil)
     { sx: 86,   sy: 342, sw: 167, sh: 167 }, { sx: 299,  sy: 337, sw: 172, sh: 170 },
     { sx: 514,  sy: 342, sw: 178, sh: 166 }, { sx: 729,  sy: 342, sw: 176, sh: 164 },
@@ -67,16 +67,16 @@ const HANG_RECTS = [                               // bongkahan batu menggantung
     { sx: 1846, sy: 45, sw: 171, sh: 247 }, { sx: 2058, sy: 84, sw: 136, sh: 212 },
     { sx: 2278, sy: 84, sw: 171, sh: 212 }
 ];
-const SIDE_WALL_RECTS = {                          // construction.png (tembok kiri / kanan)
+const SIDE_WALL_RECTS = {                          // construction.webp (tembok kiri / kanan)
     leftCap:  { sx: 87,   sy: 373, sw: 191, sh: 357 },
     leftIvy:  { sx: 318,  sy: 358, sw: 178, sh: 371 },
     rightIvy: { sx: 2255, sy: 374, sw: 179, sh: 356 },
     rightCap: { sx: 2475, sy: 374, sw: 191, sh: 357 }
 };
-const BUFF_FRAME = { sx: 713, sy: 1225, sw: 177, sh: 271 };      // hp_bar.png (rangka kecil)
+const BUFF_FRAME = { sx: 713, sy: 1225, sw: 177, sh: 271 };      // hp_bar.webp (rangka kecil)
 
 
-/* ---- construction.png ---- */
+/* ---- construction.webp ---- */
 const GROUND_TILE_X = [90, 313, 526, 743, 962, 1179, 1397, 1615, 1834, 2051, 2263, 2483];
 const GROUND_TILE = { y: 1290, w: 176, h: 205 };            // ujung kiri = idx 0, ujung kanan = idx 11
 const WALL_TILE_X = [90, 315, 526, 744, 968, 1180, 1399, 1615, 1834, 2052, 2270, 2483];
@@ -90,13 +90,13 @@ const CHAIN_SEGMENT = { sx: 0, sy: 0, sw: 32, sh: 150 };
 const MAGIC_FRAMES = Array.from({ length: 5 }, (_, i) => ({ sx: 0, sy: 0, sw: 443, sh: 82 + (i % 2) * 8, surf: 24 }));
 const CHAIN_FRAMES = Array.from({ length: 5 }, (_, i) => ({ sx: 0, sy: 0, sw: 415, sh: 130, surf: 22 + (i % 2) * 2 }));
 
-/* ---- portal.png: sheet 8 kolom x 3 baris ---- */
+/* ---- portal.webp: sheet 8 kolom x 3 baris ---- */
 const PORTAL_CELL = { w: 344, h: 512 };
 const PORTAL_OPEN_FRAMES = Array.from({ length: 8 }, (_, i) => ({ sx: i * 344, sy: 0, sw: 344, sh: 512 }));
 const PORTAL_ACTIVE_FRAMES = Array.from({ length: 8 }, (_, i) => ({ sx: i * 344, sy: 512, sw: 344, sh: 512 }));
 const PORTAL_CLOSE_FRAMES = Array.from({ length: 8 }, (_, i) => ({ sx: i * 344, sy: 1024, sw: 344, sh: 512 }));
 
-/* ---- chest_potion.png ---- */
+/* ---- chest_potion.webp ---- */
 const CHEST_FRAMES = [
     { sx: 32, sy: 70, sw: 180, sh: 190 },
     { sx: 226, sy: 66, sw: 180, sh: 190 },

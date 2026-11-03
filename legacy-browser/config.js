@@ -6,7 +6,7 @@
 
 const CFG = {
     VIEW_H: 720,                               // tinggi dunia logis (piksel)
-    GROUND_Y: Math.round(720 * 0.83),          // garis lantai pada bg_dungeon.png
+    GROUND_Y: Math.round(720 * 0.83),          // garis lantai pada bg_dungeon.webp
     STEP: 1000 / 60,                           // 1 tick fisika = 16.67 ms
     MAX_FALL: 17,
     TIER: [0, 135, 240, 345],                  // tinggi platform di atas lantai (terjangkau lompatan)

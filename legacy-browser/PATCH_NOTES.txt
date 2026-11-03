@@ -1,9 +1,9 @@
 THE UNIVERSE — PATCH NOTES
 
 Perbaikan utama
-- Memperbaiki pemuatan karakter Ksatria Putri dengan memakai hero_cewe.png dan ukuran frame atlas 8 x 4 yang benar. Baseline kaki animasi disesuaikan per baris agar sprite tidak tampak melayang.
-- Menghubungkan atlas UI_button.png untuk tombol sentuh, serta pause_fullscreen.png untuk tombol Pause dan Fullscreen.
-- Menghubungkan chest_potion.png untuk animasi peti dan ikon potion. Peti dibuka dengan E (atau sentuh prompt), potion dikumpulkan lalu digunakan dengan Q atau tombol potion pada HUD.
+- Memperbaiki pemuatan karakter Ksatria Putri dengan memakai hero_cewe.webp dan ukuran frame atlas 8 x 4 yang benar. Baseline kaki animasi disesuaikan per baris agar sprite tidak tampak melayang.
+- Menghubungkan atlas UI_button.webp untuk tombol sentuh, serta pause_fullscreen.webp untuk tombol Pause dan Fullscreen.
+- Menghubungkan chest_potion.webp untuk animasi peti dan ikon potion. Peti dibuka dengan E (atau sentuh prompt), potion dikumpulkan lalu digunakan dengan Q atau tombol potion pada HUD.
 - Efek potion: Healing memulihkan HP hingga 40; Damage menaikkan damage 50% selama 15 detik; Speed menaikkan kecepatan 35% selama 12 detik.
 - Menambahkan pola level zig-zag dan platform bertingkat naik-turun, lengkap dengan tangga akses pada stage yang mendukungnya.
 - Meningkatkan AI pada difficulty Hard: musuh lebih cepat mendeteksi dan mengejar player, bergerak lebih cepat, lebih kuat, serta memiliki jeda serangan lebih pendek.
@@ -26,7 +26,7 @@ Buka index.html melalui browser modern. Untuk hasil paling konsisten, jalankan f
 
 
 PATCH VISUAL REVISION
-- Layar Stage Clear sekarang memakai victory.png sebagai satu-satunya artwork judul/statistik/tombol Next Stage; elemen teks/tombol HTML yang sebelumnya menumpuk dihilangkan.
-- Menu dan Ulangi di layar Stage Clear memakai potongan tombol asli dari lose.png; Game Over memakai hitbox transparan di atas dua tombol bawaan lose.png.
-- road.png sekarang dipakai sebagai jalur bawah kontinu yang bertemu garis collision lantai; drawRoadDecor lama yang menggambar road melayang di atas tanah tidak lagi digunakan.
-- Konstruksi/dinding dungeon tetap dirakit dari construction.png, sementara lintasan vertikal stairs/zigzag dipastikan muncul berkala pada tiap stage.
+- Layar Stage Clear sekarang memakai victory.webp sebagai satu-satunya artwork judul/statistik/tombol Next Stage; elemen teks/tombol HTML yang sebelumnya menumpuk dihilangkan.
+- Menu dan Ulangi di layar Stage Clear memakai potongan tombol asli dari lose.webp; Game Over memakai hitbox transparan di atas dua tombol bawaan lose.webp.
+- road.webp sekarang dipakai sebagai jalur bawah kontinu yang bertemu garis collision lantai; drawRoadDecor lama yang menggambar road melayang di atas tanah tidak lagi digunakan.
+- Konstruksi/dinding dungeon tetap dirakit dari construction.webp, sementara lintasan vertikal stairs/zigzag dipastikan muncul berkala pada tiap stage.

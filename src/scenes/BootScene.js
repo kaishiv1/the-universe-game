@@ -48,18 +48,18 @@ export class BootScene extends Phaser.Scene {
     this.load.on('progress', value => { fill.width = 318 * value; });
 
     for (const [folder, files] of Object.entries(ASSETS)) {
-      for (const key of files) this.load.image(key, `${base}${folder}/${key}.png`);
+      for (const key of files) this.load.image(key, `${base}${folder}/${key}.webp`);
     }
     for (const [prefix, count] of Object.entries(CROP_GROUPS)) {
-      for (let i = 0; i < count; i++) this.load.image(`${prefix}_${i}`, `${base}map/${prefix}_${i}.png`);
+      for (let i = 0; i < count; i++) this.load.image(`${prefix}_${i}`, `${base}map/${prefix}_${i}.webp`);
     }
 
-    this.load.spritesheet('heroM', `${base}player/hero_cowo.png`, { frameWidth: 344, frameHeight: 384 });
-    this.load.spritesheet('heroF', `${base}player/hero_cewe.png`, { frameWidth: 300, frameHeight: 448 });
-    this.load.spritesheet('slime', `${base}enemy/musuh.png`, { frameWidth: 344, frameHeight: 384 });
-    this.load.spritesheet('golem', `${base}enemy/musuh2.png`, { frameWidth: 344, frameHeight: 384 });
-    this.load.spritesheet('ghost', `${base}enemy/musuh3.png`, { frameWidth: 344, frameHeight: 384 });
-    this.load.spritesheet('portalSheet', `${base}objects/portal.png`, { frameWidth: 344, frameHeight: 512 });
+    this.load.spritesheet('heroM', `${base}player/hero_cowo.webp`, { frameWidth: 344, frameHeight: 384 });
+    this.load.spritesheet('heroF', `${base}player/hero_cewe.webp`, { frameWidth: 300, frameHeight: 448 });
+    this.load.spritesheet('slime', `${base}enemy/musuh.webp`, { frameWidth: 344, frameHeight: 384 });
+    this.load.spritesheet('golem', `${base}enemy/musuh2.webp`, { frameWidth: 344, frameHeight: 384 });
+    this.load.spritesheet('ghost', `${base}enemy/musuh3.webp`, { frameWidth: 344, frameHeight: 384 });
+    this.load.spritesheet('portalSheet', `${base}objects/portal.webp`, { frameWidth: 344, frameHeight: 512 });
     const audioBase = `${import.meta.env.BASE_URL}assets/audio/`;
     for (const key of AUDIO_FILES) this.load.audio(key, `${audioBase}${key}.wav`);
     this.load.audio('menu_theme', `${audioBase}menu_theme.ogg`);

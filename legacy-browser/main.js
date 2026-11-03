@@ -84,12 +84,12 @@ function sfx(type) {
    ASET: pemuatan, bake sprite, progress
 ========================================================= */
 const IMAGE_FILES = {
-    bg: "map/bg_dungeon.png", heroM: "player/hero_cowo.png", heroF: "player/hero_cewe.png",
-    slime: "enemy/musuh.png", golem: "enemy/musuh2.png", ghost: "enemy/musuh3.png",
-    plat: "map/platform.png", cons: "map/construction.png", portal: "objects/portal.png",
-    chest: "objects/chest_potion.png", road: "map/road.png", hp: "ui/hp_bar.png",
-    lose: "ui/lose.png", victory: "ui/victory.png", pause: "ui/pause_fullscreen.png",
-    ui: "ui/UI_button.png", mm: "ui/frame_minimap.png"
+    bg: "map/bg_dungeon.webp", heroM: "player/hero_cowo.webp", heroF: "player/hero_cewe.webp",
+    slime: "enemy/musuh.webp", golem: "enemy/musuh2.webp", ghost: "enemy/musuh3.webp",
+    plat: "map/platform.webp", cons: "map/construction.webp", portal: "objects/portal.webp",
+    chest: "objects/chest_potion.webp", road: "map/road.webp", hp: "ui/hp_bar.webp",
+    lose: "ui/lose.webp", victory: "ui/victory.webp", pause: "ui/pause_fullscreen.webp",
+    ui: "ui/UI_button.webp", mm: "ui/frame_minimap.webp"
 };
 const IMG = {};                 // key -> HTMLImageElement
 const imgPromises = {};
@@ -287,10 +287,10 @@ async function prepareStage(n) {
    LAYOUT SPRITE UI (potongan atlas via CSS background)
 ========================================================= */
 const ATLAS_INFO = {
-    pause: { url: "/assets/img/ui/pause_fullscreen.png", w: 2400, h: 1792 },
-    ui:    { url: "/assets/img/ui/UI_button.png", w: 2752, h: 1536 },
-    chest: { url: "/assets/img/objects/chest_potion.png", w: 1024, h: 576 },
-    hp:    { url: "/assets/img/ui/hp_bar.png", w: 2752, h: 1536 }
+    pause: { url: "/assets/img/ui/pause_fullscreen.webp", w: 2400, h: 1792 },
+    ui:    { url: "/assets/img/ui/UI_button.webp", w: 2752, h: 1536 },
+    chest: { url: "/assets/img/objects/chest_potion.webp", w: 1024, h: 576 },
+    hp:    { url: "/assets/img/ui/hp_bar.webp", w: 2752, h: 1536 }
 };
 const rectPath = (path) => path.split(".").reduce((o, k) => o[k], UI_RECTS);
 
@@ -339,7 +339,7 @@ function layoutSprites() {
     resizeHud();
 }
 
-function layoutBuffs() {                      // rangka dari hp_bar.png + ikon ramuan dari chest_potion.png
+function layoutBuffs() {                      // rangka dari hp_bar.webp + ikon ramuan dari chest_potion.webp
     document.querySelectorAll(".buff").forEach(b => {
         if (!b.clientWidth) return;
         cropInto(b, "hp", { x: BUFF_FRAME.sx, y: BUFF_FRAME.sy, w: BUFF_FRAME.sw, h: BUFF_FRAME.sh },
@@ -1242,7 +1242,7 @@ function finishStageClear() {
     if (gameState !== "stageexit") return;
     gameState = "stageclear";
     const last = run.stage >= CFG.MAX_STAGE;
-    // Judul "STAGE CLEAR" sudah menjadi bagian dari victory.png; tidak menimpanya dengan label HTML.
+    // Judul "STAGE CLEAR" sudah menjadi bagian dari victory.webp; tidak menimpanya dengan label HTML.
     $("cl-v0").textContent = Math.round(run.stats.dealt);
     $("cl-v1").textContent = Math.round(run.stats.taken);
     $("cl-v2").textContent = fmtTime(run.stats.time);
@@ -1255,7 +1255,7 @@ function onPlayerDeath() {
     gameState = "gameover";
     clearKeys();
     saveBest(run.stage);
-    // Judul FAILED sudah menjadi bagian dari lose.png.
+    // Judul FAILED sudah menjadi bagian dari lose.webp.
     $("dt-v0").textContent = Math.round(run.stats.dealt);
     $("dt-v1").textContent = Math.round(run.stats.taken);
     $("dt-v2").textContent = fmtTime(run.stats.time);
@@ -1418,7 +1418,7 @@ function drawGround(camX) {
     ctx.fillStyle = under;
     ctx.fillRect(0, GROUND_Y - 8, view.w, VIEW_H - GROUND_Y + 48);
 
-    // road.png adalah satu jalur panjang dengan permukaan rumput/batu dan akar di bawahnya.
+    // road.webp adalah satu jalur panjang dengan permukaan rumput/batu dan akar di bawahnya.
     // Ulangi dengan pola cermin agar jalan bawah kontinu tanpa sambungan vertikal yang mencolok.
     if (SPR.road) {
         const tileW = SPR.road.width;

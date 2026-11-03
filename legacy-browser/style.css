@@ -40,7 +40,7 @@ body {
     align-items: center;
     background:
         linear-gradient(rgba(8, 6, 4, 0.80), rgba(8, 6, 4, 0.93)),
-        url("/assets/img/map/bg_dungeon.png") center / cover no-repeat,
+        url("/assets/img/map/bg_dungeon.webp") center / cover no-repeat,
         #080604;
 }
 
@@ -600,7 +600,7 @@ body.hide-mobile-ui #mobile-ui {
     align-items: center; justify-content: center;
     background:
         linear-gradient(rgba(6,5,4,.86), rgba(6,5,4,.95)),
-        url("/assets/img/map/bg_dungeon.png") center / cover no-repeat, #050403;
+        url("/assets/img/map/bg_dungeon.webp") center / cover no-repeat, #050403;
 }
 #loading-screen.active { display: flex; }
 .ld-box { width: min(520px, 88vw); text-align: center; }
@@ -789,7 +789,7 @@ kbd {
     top: 3px;
     width: 34px;
     height: 40px;
-    background: url("/assets/img/ui/UI_button.png") no-repeat;
+    background: url("/assets/img/ui/UI_button.webp") no-repeat;
     background-size: 197px 110px;
     background-position: -81px -59px;
     image-rendering: pixelated;
@@ -866,8 +866,8 @@ kbd {
     background-size: 100% 100%;
     filter: drop-shadow(0 18px 40px rgba(0,0,0,.5));
 }
-.victory-art { background-image: url("/assets/img/ui/victory.png"); }
-.failed-art { background-image: url("/assets/img/ui/lose.png"); }
+.victory-art { background-image: url("/assets/img/ui/victory.webp"); }
+.failed-art { background-image: url("/assets/img/ui/lose.webp"); }
 .art-panel .end-sub {
     position: absolute;
     top: 22%;
@@ -977,8 +977,8 @@ button:active { filter: brightness(1.25); }
     background-size: 100% 100%;
     filter: drop-shadow(0 12px 26px rgba(0,0,0,.48));
 }
-.asset-end-wrap .victory-art { background-image: url("/assets/img/ui/victory.png"); }
-.asset-end-wrap .failed-art { background-image: url("/assets/img/ui/lose.png"); }
+.asset-end-wrap .victory-art { background-image: url("/assets/img/ui/victory.webp"); }
+.asset-end-wrap .failed-art { background-image: url("/assets/img/ui/lose.webp"); }
 .asset-end-wrap .end-sub,
 .asset-end-wrap .end-note,
 .asset-end-wrap .end-buttons { display: none !important; }
@@ -1011,7 +1011,7 @@ button:active { filter: brightness(1.25); }
 .asset-hotspot:hover { filter: brightness(1.15); }
 .asset-hotspot:active { transform: scale(.97); filter: brightness(1.35); }
 .asset-hotspot:focus-visible { outline: 3px solid #fff3ae; outline-offset: -4px; }
-/* Posisi mengikuti tombol NEXT STAGE yang sudah tercetak pada victory.png. */
+/* Posisi mengikuti tombol NEXT STAGE yang sudah tercetak pada victory.webp. */
 #cl-next { left: 33.8%; top: 81.2%; width: 32.5%; height: 16.2%; }
 .asset-end-actions {
     display: flex;
@@ -1043,7 +1043,7 @@ button:active { filter: brightness(1.25); }
 .asset-image-button:hover { transform: translateY(-2px); filter: brightness(1.12); }
 .asset-image-button:active { transform: scale(.96); filter: brightness(1.3); }
 .asset-image-button:focus-visible { outline: 3px solid #fff3ae; outline-offset: 2px; border-radius: 8px; }
-/* Hitbox transparan pas di atas dua tombol bawaan lose.png. */
+/* Hitbox transparan pas di atas dua tombol bawaan lose.webp. */
 #dt-retry { left: 30.2%; top: 81.3%; width: 19.2%; height: 15.4%; }
 #dt-menu  { left: 50.5%; top: 81.3%; width: 19.2%; height: 15.4%; }
 
