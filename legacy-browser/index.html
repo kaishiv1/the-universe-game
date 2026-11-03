@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>THE UNIVERSE</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <canvas id="gameCanvas"></canvas>
+    <div id="fps-counter">0 FPS</div>
+
+    <!-- HUD GAME -->
+    <div id="game-hud" aria-hidden="true">
+        <div id="hp-widget">
+            <canvas id="hpCanvas" width="780" height="73"></canvas>
+            <div id="stage-label">STAGE I-1</div>
+            <div id="buff-bar" aria-label="Persediaan potion">
+                <span class="buff" data-buff="atk" title="Potion damage"><i></i><b>x0</b></span>
+                <span class="buff" data-buff="spd" title="Potion speed"><i></i><b>x0</b></span>
+                <span class="buff" data-buff="hp" title="Potion healing"><i></i><b>x0</b></span>
+            </div>
+            <button id="potion-button" type="button" onclick="consumePotion()" aria-label="Gunakan potion (Q)">
+                <span id="potion-count">0</span><small>Q / GUNAKAN</small>
+            </button>
+        </div>
+
+        <div id="top-game-buttons">
+            <button id="pause-button" type="button"
+                    onclick="togglePause()" aria-label="Pause" title="Pause (Esc / P)"></button>
+
+            <button id="btn-fullscreen" type="button" onclick="toggleFullscreen(); this.blur();"
+                    aria-label="Fullscreen" title="Fullscreen (F)"></button>
+        </div>
+
+        <div id="minimap-widget">
+            <canvas id="minimapCanvas" width="420" height="170"></canvas>
+            <img src="/assets/img/ui/frame_minimap.png" alt="" class="minimap-frame">
+        </div>
+    </div>
+
+    <button id="interact-prompt" type="button" onclick="interactNearby()" aria-hidden="true">E · BUKA PETI</button>
+    <div id="control-feedback" aria-live="polite"></div>
+
+    <!-- BANNER AWAL STAGE -->
+    <div id="stage-banner" aria-live="polite">
+        <p class="sb-eyebrow">DUNGEON</p>
+        <h1 id="sb-title">STAGE I-1</h1>
+        <div class="sb-line"></div>
+        <p id="sb-note"></p>
+    </div>
+
+    <!-- PAUSE MENU -->
+    <section id="pause-screen" aria-hidden="true">
+        <div class="pause-panel">
+            <p class="pause-eyebrow">THE UNIVERSE</p>
+            <h1>PAUSED</h1>
+            <button class="gold-button" type="button" onclick="resumeGame()">RESUME</button>
+            <button class="outline-button" type="button" onclick="openPauseSettings()">SETTINGS</button>
+            <button class="outline-button" type="button" onclick="quitToMenu()">MAIN MENU</button>
+        </div>
+    </section>
+
+    <!-- STAGE CLEAR: artwork sudah memuat judul, label statistik, dan tombol NEXT STAGE.
+         Area klik dibuat transparan agar tidak menggandakan teks/tombol di atas aset. -->
+    <section id="clear-screen" class="end-screen" aria-hidden="true">
+        <div class="end-wrap asset-end-wrap">
+            <div class="art-panel victory-art">
+                <div class="art-stats" aria-live="polite">
+                    <span id="cl-v0">0</span><span id="cl-v1">0</span><span id="cl-v2">0:00</span>
+                </div>
+                <button id="cl-next" class="asset-hotspot next-hotspot" type="button"
+                        onclick="nextStage()" aria-label="Next Stage" title="Next Stage"></button>
+            </div>
+            <div class="asset-end-actions" aria-label="Aksi setelah stage selesai">
+                <button id="cl-menu" class="asset-image-button" type="button" onclick="quitToMenu()"
+                        aria-label="Main Menu" title="Main Menu">
+                    <img src="/assets/img/ui/ui_main_menu.png" alt="Main Menu" draggable="false">
+                </button>
+                <button id="cl-retry" class="asset-image-button" type="button" onclick="retryStage()"
+                        aria-label="Ulangi Stage" title="Ulangi Stage">
+                    <img src="/assets/img/ui/ui_retry_stage.png" alt="Restart Level" draggable="false">
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- GAME OVER: kedua tombol sudah tercetak di lose.png. -->
+    <section id="death-screen" class="end-screen" aria-hidden="true">
+        <div class="end-wrap asset-end-wrap">
+            <div class="art-panel failed-art">
+                <div class="art-stats" aria-live="polite">
+                    <span id="dt-v0">0</span><span id="dt-v1">0</span><span id="dt-v2">0:00</span>
+                </div>
+                <button id="dt-retry" class="asset-hotspot death-retry-hotspot" type="button"
+                        onclick="restartRun()" aria-label="Restart Level" title="Restart Level"></button>
+                <button id="dt-menu" class="asset-hotspot death-menu-hotspot" type="button"
+                        onclick="quitToMenu()" aria-label="Main Menu" title="Main Menu"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOADING -->
+    <section id="loading-screen" aria-hidden="true">
+        <div class="ld-box">
+            <p class="eyebrow">THE UNIVERSE</p>
+            <h2 id="ld-title">MEMUAT...</h2>
+            <div class="ld-bar"><div id="ld-fill"></div></div>
+            <p id="ld-step">Menyiapkan aset</p>
+            <p id="ld-tip"></p>
+        </div>
+    </section>
+
+    <!-- UI LAYER -->
+    <div id="ui-layer">
+
+        <!-- MAIN MENU -->
+        <section id="main-menu" class="screen active">
+            <div class="main-panel">
+                <p class="eyebrow">DUNGEON ACTION GAME</p>
+                <h1>ROGUE <span>SLASH</span></h1>
+                <p class="menu-subtitle">
+                    ENTER THE DUNGEON. DEFEAT YOUR FATE.
+                </p>
+
+                <div class="menu-buttons">
+                    <button class="gold-button" id="btn-play" onclick="openCharSelect()">
+                        PLAY GAME
+                    </button>
+                    <button class="outline-button" onclick="showScreen('settings')">
+                        SETTINGS
+                    </button>
+                </div>
+                <p class="menu-best" id="menu-best"></p>
+                <div class="controls-guide" aria-label="Panduan tombol permainan">
+                    <h2>PANDUAN KONTROL</h2>
+                    <div class="guide-grid">
+                        <span><kbd>A / D</kbd> atau <kbd>← / →</kbd> Bergerak</span>
+                        <span><kbd>W</kbd> / <kbd>SPACE</kbd> Lompat / naik tangga</span>
+                        <span><kbd>Z</kbd> / <kbd>ENTER</kbd> Serang</span>
+                        <span><kbd>S</kbd> / <kbd>↓</kbd> Turun / jatuh dari platform</span>
+                        <span><kbd>E</kbd> Buka peti / interaksi</span>
+                        <span><kbd>Q</kbd> Gunakan potion yang dikumpulkan</span>
+                        <span><kbd>ESC</kbd> / <kbd>P</kbd> Pause</span>
+                        <span><kbd>F</kbd> Fullscreen</span>
+                    </div>
+                    <p>Potion tidak aktif otomatis: ambil potion lalu tekan Q atau tombol potion di HUD.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PILIH KARAKTER -->
+        <section id="char-select" class="screen">
+            <div class="cs-shell">
+                <p class="eyebrow">NEW RUN</p>
+                <h1>PILIH KARAKTER</h1>
+
+                <div class="cs-cards" id="cs-cards">
+                    <button class="cs-card selected" data-hero="knight" type="button">
+                        <canvas width="220" height="260"></canvas>
+                        <h2>KSATRIA</h2>
+                        <p>Seimbang. Tebasan kuat.</p>
+                        <span class="cs-stat">DAMAGE 25 &middot; SPEED 5.0</span>
+                    </button>
+                    <button class="cs-card" data-hero="knightess" type="button">
+                        <canvas width="220" height="260"></canvas>
+                        <h2>KSATRIA PUTRI</h2>
+                        <p>Gesit. Serangan cepat.</p>
+                        <span class="cs-stat">DAMAGE 22 &middot; SPEED 5.5</span>
+                    </button>
+                </div>
+
+                <div class="cs-skin">
+                    <span class="cs-skin-title">SKIN</span>
+                    <div id="skin-list"></div>
+                </div>
+
+                <div class="cs-actions">
+                    <button class="outline-button" onclick="showScreen('main-menu')">KEMBALI</button>
+                    <button class="gold-button" onclick="confirmCharacter()">MULAI PERMAINAN</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section id="settings" class="screen">
+            <div class="settings-shell">
+                <header class="settings-header">
+                    <h1>SETTINGS</h1>
+                    <button class="outline-button"
+                            onclick="showScreen('key-bindings')">
+                        KEY BINDINGS
+                    </button>
+                </header>
+
+                <p class="settings-note">
+                    SOME SETTINGS CAN ONLY BE CHANGED IN THE MAIN MENU
+                </p>
+
+                <div class="settings-layout">
+                    <nav class="settings-nav">
+                        <button class="nav-tab active"
+                                onclick="selectSettingsTab('game', this)">
+                            Game
+                        </button>
+                        <button class="nav-tab"
+                                onclick="selectSettingsTab('controls', this)">
+                            Controls
+                        </button>
+                        <button class="nav-tab"
+                                onclick="selectSettingsTab('video', this)">
+                            Video
+                        </button>
+                        <button class="return-button"
+                                onclick="settingsReturn()">
+                            Return
+                        </button>
+                    </nav>
+
+                    <div class="settings-panel">
+
+                        <div id="tab-game" class="settings-tab active">
+                            <h2>GAME</h2>
+
+                            <div class="setting-row">
+                                <label for="diff-select">Difficulty</label>
+                                <select id="diff-select">
+                                    <option value="0.5">Easy</option>
+                                    <option value="1" selected>Standard</option>
+                                    <option value="2">Hard</option>
+                                </select>
+                            </div>
+
+                            <div class="setting-row">
+                                <label for="sound-toggle">Sound effects</label>
+                                <input type="checkbox" id="sound-toggle" checked>
+                            </div>
+                        </div>
+
+                        <div id="tab-controls" class="settings-tab">
+                            <h2>CONTROLS</h2>
+
+                            <div class="setting-row">
+                                <span>Move left / right</span>
+                                <strong>A / D</strong>
+                            </div>
+
+                            <div class="setting-row">
+                                <span>Jump</span>
+                                <strong>W / SPACE</strong>
+                            </div>
+
+                            <div class="setting-row">
+                                <span>Attack</span>
+                                <strong>Z / ENTER</strong>
+                            </div>
+
+                            <div class="setting-row">
+                                <label for="mobile-controls-toggle">
+                                    Show touch UI buttons
+                                </label>
+                                <input type="checkbox"
+                                       id="mobile-controls-toggle" checked>
+                            </div>
+
+                            <p class="small-note">
+                                You can hide or show the on-screen control buttons.
+                            </p>
+                        </div>
+
+                        <div id="tab-video" class="settings-tab">
+                            <h2>VIDEO</h2>
+
+                            <div class="setting-row">
+                                <span>Display mode</span>
+                                <button class="small-gold-button"
+                                        onclick="toggleFullscreen()">
+                                    FULLSCREEN
+                                </button>
+                            </div>
+
+                            <div class="setting-row">
+                                <label for="quality-select">Graphics quality</label>
+                                <select id="quality-select">
+                                    <option value="low">Rendah</option>
+                                    <option value="medium" selected>Sedang</option>
+                                    <option value="high">Tinggi</option>
+                                </select>
+                            </div>
+                            <p class="small-note">
+                                Rendah: resolusi render 65%, tanpa cahaya &amp; bayangan (paling lancar).
+                                Sedang: seimbang. Tinggi: resolusi penuh dan semua efek.
+                            </p>
+
+                            <div class="setting-row">
+                                <label for="fps-toggle">Tampilkan FPS</label>
+                                <input type="checkbox" id="fps-toggle">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KEY BINDINGS -->
+        <section id="key-bindings" class="screen">
+            <div class="simple-panel">
+                <h1>KEY BINDINGS</h1>
+
+                <div class="setting-row">
+                    <span>Movement</span>
+                    <strong>A / D</strong>
+                </div>
+
+                <div class="setting-row">
+                    <span>Jump</span>
+                    <strong>W / SPACE</strong>
+                </div>
+
+                <div class="setting-row">
+                    <span>Attack</span>
+                    <strong>Z / ENTER</strong>
+                </div>
+
+                <div class="setting-row">
+                    <span>Drop through platform</span>
+                    <strong>S / DOWN</strong>
+                </div>
+
+                <button class="return-button"
+                        onclick="showScreen('settings')">
+                    RETURN
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- MOBILE CONTROLS (sprite dipotong dari /assets/img/ui/UI_button.png) -->
+    <div id="mobile-ui" aria-label="Kontrol sentuh">
+        <div class="mobile-group">
+            <button id="ui-kiri" class="touch-btn" data-label="KIRI" aria-label="Kiri"></button>
+            <button id="ui-kanan" class="touch-btn" data-label="KANAN" aria-label="Kanan"></button>
+        </div>
+        <div class="mobile-group">
+            <button id="ui-turun" class="touch-btn" data-label="TURUN" aria-label="Turun"></button>
+            <button id="ui-lompat" class="touch-btn" data-label="LOMPAT" aria-label="Lompat"></button>
+            <button id="ui-potion" class="touch-btn" data-label="POTION" aria-label="Gunakan potion"></button>
+            <button id="ui-serang" class="touch-btn" data-label="SERANG" aria-label="Serang"></button>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="sprites.js"></script>
+    <script src="worldgen.js"></script>
+    <script src="enemy-ai.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generator Aset Placeholder</title>
+  <style>
+    body { background: #2c3e50; color: white; font-family: sans-serif; padding: 20px; text-align: center; }
+    .asset-box { margin-bottom: 30px; padding: 10px; background: #34495e; border-radius: 8px; }
+    img { border: 2px dashed #f1c40f; background: #ecf0f1; max-width: 100%; image-rendering: pixelated; }
+    p { font-size: 14px; color: #bdc3c7; }
+  </style>
+</head>
+<body>
+
+  <h2>Generator Aset Sementara</h2>
+  <p>Tahan (Long-press) pada gambar di bawah ini, lalu pilih <b>Simpan Gambar (Save Image As)</b>. Simpan ke subfolder kategori yang sesuai di <code>/assets/img/</code> (player, enemy, map, objects, atau ui).</p>
+
+  <div class="asset-box">
+    <h3>1. hero_cowo.png (Sprite Sheet)</h3>
+    <img id="imgCowo" alt="Hero Cowo">
+  </div>
+
+  <div class="asset-box">
+    <h3>2. hero_cewe.png (Sprite Sheet)</h3>
+    <img id="imgCewe" alt="Hero Cewe">
+  </div>
+
+  <div class="asset-box">
+    <h3>3. musuh.png (Sprite)</h3>
+    <img id="imgMusuh" alt="Musuh">
+  </div>
+
+  <div class="asset-box">
+    <h3>4. bg_dungeon.png (Background)</h3>
+    <img id="imgBg" alt="Background">
+  </div>
+
+  <script>
+    // Fungsi untuk membuat Sprite Sheet Karakter (384x192)
+    // 6 Kolom (Frame) x 3 Baris (Idle, Run, Attack)
+    function generateHero(color, id) {
+      const c = document.createElement("canvas");
+      c.width = 384; c.height = 192;
+      const ctx = c.getContext("2d");
+
+      ctx.font = "12px sans-serif";
+      ctx.textAlign = "center";
+
+      for (let row = 0; row < 3; row++) {
+        for (let col = 0; col < 6; col++) {
+          let x = col * 64; let y = row * 64;
+          
+          // Gambar badan
+          ctx.fillStyle = color;
+          ctx.fillRect(x + 16, y + 16, 32, 40);
+          
+          // Gambar mata (arah hadap kanan)
+          ctx.fillStyle = "white";
+          ctx.fillRect(x + 35, y + 25, 8, 8);
+          
+          // Label teks untuk membantumu memahami frame
+          ctx.fillStyle = "black";
+          let pose = row === 0 ? "IDLE" : row === 1 ? "RUN" : "ATK";
+          ctx.fillText(`${pose} ${col}`, x + 32, y + 12);
+
+          // Gambar pedang khusus di baris Attack (row 2)
+          if (row === 2 && col < 3) {
+            ctx.fillStyle = "yellow";
+            ctx.fillRect(x + 48, y + 30, 12, 4);
+          }
+        }
+      }
+      document.getElementById(id).src = c.toDataURL("image/png");
+    }
+
+    // Fungsi untuk membuat Musuh (40x40)
+    function generateEnemy() {
+      const c = document.createElement("canvas");
+      c.width = 40; c.height = 40;
+      const ctx = c.getContext("2d");
+      
+      ctx.fillStyle = "#27ae60"; // Hijau
+      ctx.fillRect(0, 0, 40, 40);
+      ctx.fillStyle = "black";
+      ctx.fillText("MUSUH", 20, 25);
+      
+      document.getElementById("imgMusuh").src = c.toDataURL("image/png");
+    }
+
+    // Fungsi untuk membuat Background (800x450)
+    function generateBackground() {
+      const c = document.createElement("canvas");
+      c.width = 800; c.height = 450;
+      const ctx = c.getContext("2d");
+      
+      // Lantai gelap
+      ctx.fillStyle = "#2c3e50";
+      ctx.fillRect(0, 0, 800, 450);
+      
+      // Garis grid batu bata kasar
+      ctx.strokeStyle = "#34495e";
+      ctx.lineWidth = 2;
+      for(let i=0; i<800; i+=50) {
+        ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 450); ctx.stroke();
+      }
+      
+      document.getElementById("imgBg").src = c.toDataURL("image/png");
+    }
+
+    // Eksekusi
+    generateHero("#2980b9", "imgCowo"); // Biru untuk Cowo
+    generateHero("#8e44ad", "imgCewe"); // Ungu untuk Cewe
+    generateEnemy();
+    generateBackground();
+  </script>
+</body>
+</html>

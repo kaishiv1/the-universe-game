@@ -1,0 +1,21 @@
+{
+  "name": "the-universe",
+  "private": true,
+  "version": "2.4.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "npm run check && vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "check": "node scripts/validate-project.mjs"
+  },
+  "dependencies": {
+    "phaser": "4.2.1"
+  },
+  "devDependencies": {
+    "vite": "8.3.5"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}

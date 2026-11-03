@@ -1,0 +1,63 @@
+:root {
+  color-scheme: dark;
+  font-family: Consolas, "Courier New", monospace;
+  background: #050913;
+  color: #f7e9ba;
+}
+
+* { box-sizing: border-box; }
+html, body, #game-shell, #game-root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+body {
+  min-height: 100dvh;
+  background: radial-gradient(ellipse at center, #172238 0%, #070b14 75%, #02040a 100%);
+  overscroll-behavior: none;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+#game-shell { position: relative; display: grid; place-items: center; }
+#game-root {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+/* Isi seluruh area browser, termasuk sisi kiri/kanan ketika rasio layar lebih lebar.
+   Buffer game tetap 1280x720; hanya ukuran tampilan canvas yang mengikuti viewport. */
+#game-root canvas {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  image-rendering: auto;
+  touch-action: none;
+}
+#rotate-hint {
+  position: fixed;
+  z-index: 1000;
+  inset: auto 12px max(12px, env(safe-area-inset-bottom));
+  display: none;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 208, 92, .55);
+  border-radius: 8px;
+  background: rgba(5, 8, 15, .88);
+  color: #ffe29a;
+  text-align: center;
+  font: 700 12px/1.4 Consolas, monospace;
+  pointer-events: none;
+}
+#rotate-hint.visible { display: block; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
